@@ -28,6 +28,8 @@
 
 任务是一组逻辑工作单元，而线程则是任务异步执行的机制，执行任务的策略有两种，在单个线程中串行执行；将每个任务放在各自的线程执行。
 
+executor框架有多种静态方法实现了多种线程池，可以作为executorservice返回，executorservice实现了executor接口。
+
 java.util.concurrent提供了灵活的线程池实现作为Executor框架的一部分。在java库类中，任务执行需要的主要抽象不是Thread，而是Executor。Executor能够支持多种类型的任务执行策略，提供一种标准的方法将任务的提交过程与执行解耦开来，并采用runnable来表示任务。
 
 executor基于生产者——消费者模式，提交任务的操作相当于生产者，而执行任务的线程为消费者，
