@@ -35,3 +35,55 @@ java.util.concurrent.atomic中存在有很多原子变量类，用于实现在�
 5. 对于每个包含多个变量的不变性条件，其中涉及的所有变量都需要由同一个锁来保护。
 6. 活跃性与性能：直接对整个方法进行加锁，会导致在同一时间只能有一个线程能使用该方法，降低程序的性能，可以通过缩小同步代码块的作用范围实现性能的提高
 
+
+第4点中对于同步代码块，子类与父类的synchronize关键字理解，可以参考下面的代码
+```java
+public class Test {
+  public static void main(String[] args) throws InterruptedException {
+    final TestChild t = new TestChild();
+
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        t.doSomething();
+      }
+    }).start();
+    Thread.sleep(100);
+    t.doSomethingElse();
+  }
+
+  public synchronized void doSomething() {
+    System.out.println("something sleepy!");
+    try {
+      Thread.sleep(1000);
+      System.out.println("woke up!");
+    }
+    catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private static class TestChild extends Test {
+    public void doSomething() {
+      super.doSomething();
+    }
+
+    public synchronized void doSomethingElse() {
+      System.out.println("something else");
+    }
+  }
+}
+```
+对于上面的代码，main方法中有一个thread线程和main方法主线程，如果认为子类与父类的锁不是一个锁，那么代码的最终输出应该是：
+```
+something sleepy!
+something else//因为thread线程被sleep了，
+woke up!
+```
+但是，最终的输出结果是：
+```
+something sleepy!
+woke up!
+something else
+```
+可以看出实例的this锁被thread持有，主方法无法获得dosomethingelse的锁，而同时java又支持重入锁，因此得到结果。
