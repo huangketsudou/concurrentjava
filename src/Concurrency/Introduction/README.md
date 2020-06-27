@@ -34,8 +34,13 @@
 
 #### java线程的状态
 
-[深入理解Java线程状态](https://juejin.im/post/5d8313b6518825313a7bba1e)
+[Java线程的6种状态及切换(透彻讲解)](https://blog.csdn.net/pange1991/article/details/53860651) 
 
+[Object.wait()与Object.notify()的用法](https://www.cnblogs.com/xwdreamer/archive/2012/05/12/2496843.html) 
+
+[Java 并发编程：线程间的协作(wait/notify/sleep/yield/join)](https://www.cnblogs.com/paddix/p/5381958.html)
+
+这三个要配合着看
 #### 死锁发生的条件
 
 （1） 互斥条件：一个资源每次只能被一个进程使用。
